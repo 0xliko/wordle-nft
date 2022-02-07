@@ -128,7 +128,7 @@ function Landing(props) {
                                 <Box sx={{justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
                                     <Typography sx={{fontFamily: 'Poppins', fontSize: '18px', lineHeight: '32px'}}>You
                                         are
-                                        nearly part of the family, ONE STEP TO GO!<br/>You can mint your own worlde
+                                        nearly part of the family, ONE STEP TO GO!<br/>You can mint your own wordle
                                         below:<br/>Mint is Live.</Typography>
                                 </Box>
                                 <Box sx={{display: 'flex', flexDirection: 'row', mt: 1}}>
@@ -146,7 +146,7 @@ function Landing(props) {
                                         marginLeft: '15px',
                                         textDecorationLine: 'underline',
                                         color: '#ECB000'
-                                    }}>View on Openseq</a>
+                                    }}>View on Opensea</a>
                                 </Box>
                             </Grid>
 
