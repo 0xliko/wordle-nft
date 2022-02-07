@@ -29,7 +29,7 @@ const style = {
 };
 
 function MintModal(props) {
-    const {account, active, activate, chainId} = useEthers();
+    const {account, activate, chainId} = useEthers();
     const [open, setOpen] = React.useState(false);
     const [count,setCount] = React.useState(1);
     const handleOpen = () => {
@@ -72,11 +72,11 @@ function MintModal(props) {
 
     }
     const increaseCount = ()=>{
-        if(count == 3) return;
+        if(count === 3) return;
         setCount(count+1)
     }
     const decreaseCount = ()=>{
-        if(count == 1) return;
+        if(count === 1) return;
         setCount(count-1)
     }
     const mint = ()=>{
@@ -143,11 +143,11 @@ function MintModal(props) {
                              alt="Metamask"/>
                         &nbsp;&nbsp;Connect to metamask
                     </Button>)}
-                    {account && chainId != process.env.REACT_APP_CURRENT_CHAIN && (
+                    {account && chainId !== process.env.REACT_APP_CURRENT_CHAIN * 1&& (
                         <Button variant="contained" color={"secondary"} sx={{color: 'red'}}>
                             Wrong Network
                         </Button>)}
-                    {account && chainId == process.env.REACT_APP_CURRENT_CHAIN && (<React.Fragment>
+                    {account && chainId === process.env.REACT_APP_CURRENT_CHAIN*1 && (<React.Fragment>
                         <Grid container sx={{width:'150px',height:'40px',mb:3,justifyContent:'space-between'}}>
                              <Grid item>
                                  <a className="counter_control" onClick={decreaseCount}>
