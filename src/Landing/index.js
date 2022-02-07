@@ -1,4 +1,4 @@
-import {Grid, Typography, CssBaseline, Box, styled, Button, Modal, Link,} from "@mui/material";
+import {Grid, Typography, CssBaseline, Box, styled, Button} from "@mui/material";
 import HeaderBar from "../Component/Heading";
 import GreenTile from "../assets/img/green_tile.svg";
 import YellowTile from "../assets/img/yellow_tile.svg";

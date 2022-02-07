@@ -1,4 +1,4 @@
-import {Box, Grid, Link, Modal, Typography} from "@mui/material";
+import {Box, Grid, Link , Typography} from "@mui/material";
 import Twiter from "../assets/img/twiter.svg";
 import Instagram from "../assets/img/instagram.svg";
 import Discord from "../assets/img/discord.svg";

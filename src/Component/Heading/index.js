@@ -7,22 +7,19 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Grid from "@mui/material/Grid";
-import SvgIcon from "@mui/material/SvgIcon";
+
 import Twiter from "../../assets/img/twiter.svg";
 import Instagram from "../../assets/img/instagram.svg";
 import Discord from "../../assets/img/discord.svg";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import * as Scroll from 'react-scroll';
-import {Link, Element, Events, animateScroll as scroll, scrollSpy, scroller} from 'react-scroll'
+
+import {Link, Events, scrollSpy} from 'react-scroll'
 import {useEffect, useState} from "react";
 
 function HeaderBar(props) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [activeSection, setActiveSection] = useState('home')
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const onClickMenuIcon = () => {
-    };
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };

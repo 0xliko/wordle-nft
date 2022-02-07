@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
+import {BrowserRouter, Route, Switch } from "react-router-dom";
 import Landing from "../Landing";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {DAppProvider} from "@usedapp/core";
