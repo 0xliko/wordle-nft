@@ -1,0 +1,16 @@
+body *{
+  font-family: Neue Machina;
+}
+.mint_btn:hover{
+   background-color: #bb931c !important;
+}
+.counter_control img{
+    width: 40px;
+}
+.counter_control:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.menu-items .active button{
+    background-color:rgba(255, 255, 255, 0.08);
+}
