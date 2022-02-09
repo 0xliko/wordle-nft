@@ -1,15 +1,20 @@
-import {Box, Grid, Link , Typography} from "@mui/material";
+import {Alert, Box, Grid, Link, Snackbar, Typography} from "@mui/material";
 import Twiter from "../assets/img/twiter.svg";
 import Instagram from "../assets/img/instagram.svg";
 import Discord from "../assets/img/discord.svg";
 import {Close} from "@mui/icons-material";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useEthers} from "@usedapp/core";
 import Button from "@mui/material/Button";
 import counterDecrease from "../assets/img/counter_decrease.svg";
 import counterIncrease from "../assets/img/counter_increase.svg";
 import WalletConnectProvider from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
+import {
+    useBalanceOf,
+    usePrice,
+    useMint,
+} from '../hooks';
 
 
 const style = {
@@ -32,6 +37,10 @@ function MintModal(props) {
     const {account, activate, chainId} = useEthers();
     const [open, setOpen] = React.useState(false);
     const [count,setCount] = React.useState(1);
+    const {send:mint,state:mintStatus} = useMint();
+    const [processing,setProcessing] = useState(false);
+    const [message,setMessage] = useState(null);
+    const price = usePrice();
     const handleOpen = () => {
         setOpen(true);
         props.onOpened();
@@ -39,6 +48,23 @@ function MintModal(props) {
     const handleClose = () => {
         setOpen(false);
         props.onClosed();
+    }
+    const handleSnackbarClose=(event,reason)=>{
+        if (reason === 'clickaway') {
+            return;
+        }
+        setMessage(null);
+    }
+    const toast = {
+        error: (msg)=>{
+            setMessage({type:'error',msg:msg})
+        },
+        info: (msg)=>{
+            setMessage({type:'info',msg:msg})
+        },
+        success: (msg)=>{
+            setMessage({type:'success',msg:msg})
+        }
     }
     useEffect(() => {
         if (props.open)
@@ -79,11 +105,41 @@ function MintModal(props) {
         if(count === 1) return;
         setCount(count-1)
     }
-    const mint = ()=>{
+    useEffect(()=>{
+
+        if(mintStatus.status === 'Exception') {
+            toast.error(mintStatus.errorMessage);
+            setProcessing(false);
+        }
+        if(mintStatus.status === 'Success'){
+            toast.success(`You've minted successfully.`);
+            setProcessing(false);
+        }
+
+    },[mintStatus]);
+    const mintNow = ()=>{
+
+        if(!account){
+            alert("please connect metamask");
+            return;
+        } else if(!price){
+            alert("Try again");
+            return;
+        }
+        else {
+            setProcessing(true);
+            mint(account, count, {value: price.mul(count)});
+        }
 
     }
     return (
         <React.Fragment>
+
+            {message && (<Snackbar open={true} anchorOrigin={{ vertical:'bottom', horizontal:'center' }} autoHideDuration={6000} onClose={handleSnackbarClose}>
+                <Alert onClose={handleSnackbarClose} severity={message.type} sx={{ width: '100%' }}>
+                    {message.msg}
+                </Alert>
+            </Snackbar>)}
             {
                 open ? (<Box sx={style}>
                     <Grid container sx={{justifyContent: 'center', marginTop: '-40px'}} spacing={3}>
@@ -161,7 +217,7 @@ function MintModal(props) {
                                  </a>
                              </Grid>
                         </Grid>
-                        <Button variant="contained" color={"secondary"} sx={{width:300}} onClick={mint}>
+                        <Button variant="contained" color={"secondary"} sx={{width:300}} onClick={mintNow}>
                             Mint
                         </Button>
                     </React.Fragment>)}
@@ -169,6 +225,13 @@ function MintModal(props) {
 
                 </Box>) : (<React.Fragment></React.Fragment>)
             }
+            {processing && (
+                    <div className='processing-lock'>
+                      <div className='relative flex justify-center' style={{ width: '100%', height: '100%', alignItems: 'center' }}>
+                        <div className='spinner'></div>
+                      </div>
+                    </div>
+             )}
         </React.Fragment>
 
     );

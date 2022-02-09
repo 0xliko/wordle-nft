@@ -3165,7 +3165,7 @@ library Counters {
 }
 
 //SPDX-License-Identifier: Unlicense
-// @title: Lil Baby Cat Gang
+// @title: Wordle Puzzle NFT
 
 contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
 
@@ -3173,27 +3173,21 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
     using Counters for Counters.Counter;
 
     Counters.Counter private _tokenIdTracker;
-    uint public sale_state; // 0: not started sale, 1: presale, 2: public sale
+    uint public sale_state; // 0: not started sale, 1: sale
 
-    uint256 public constant MAX_ITEMS = 3000;
+    uint256 public constant MAX_ITEMS = 6999;
     uint256 public constant MAX_RESERVE = 1;
     uint256 public PRICE = 4E16; // 0.04 ETH
-    uint256 public PRESALE_PRICE = 4E16; // 0.04 ETH
-    uint256 public constant MAX_MINT = 3;
-    uint256 public constant MAX_MINT_PRESALE = 2;
-    string public baseTokenURI;
-    
-    address public constant creatorAddress1 = 0x99bf0cC740acfea468feebe6051Ccb8A97F835f1;
-    address public constant creatorAddress2 = 0x1B1147Ca19EbE473983732dC97A310E12dF66D8C;
-    address public constant creatorAddress3 = 0x4026a8e8A27aBEDab6A9C5fc0Bd9B3b01A855e31;
-    address public constant devAddress = 0x28606713a801AfcAa5FDD5D193Ab9d91b6166F4c;
-    mapping (address => bool) public whitelistedAddr;
+	uint256 public constant MAX_MINT = 3;
+	string public baseTokenURI;
+
+	mapping (address => bool) public whitelistedAddr;
 
     event CreateWordle(uint256 indexed id);
 
-    constructor(string memory baseURI) ERC721("Lil Baby Cat Gang", "CatGang") {
+    constructor(string memory baseURI) ERC721("Wordle Puzzle NFT", "Wordle") {
         setBaseURI(baseURI);
-        pause(true);
+        pause(false);
         sale_state = 0;
     }
 
@@ -3205,20 +3199,7 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
         _;
     }
 
-    function whitelistAddress (address[] memory users) public onlyOwner {
-        for (uint i = 0; i < users.length; i++) {
-            whitelistedAddr[users[i]] = true;
-        }
-    }
-
-    function removeWhitelistAddress (address[] memory users) public onlyOwner {
-        for (uint i = 0; i < users.length; i++) {
-            require(whitelistedAddr[users[i]], "address is not existed or already removed in whitelist");
-            whitelistedAddr[users[i]] = false;
-        }
-    }
-
-    function _totalSupply() internal view returns (uint) {
+	function _totalSupply() internal view returns (uint) {
         return _tokenIdTracker.current();
     }
 
@@ -3240,15 +3221,9 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
         require(total <= MAX_ITEMS, "Sale ended");
         require(total + _count <= MAX_ITEMS, "Max limit");
         require(sale_state != 0, "Sale is not started");
-        if (sale_state == 1) {
-            require(whitelistedAddr[_to] == true, "address is not whitelisted");
-            require(_count <= MAX_MINT_PRESALE, "Exceeds number");
-        } else {
-            require(_count <= MAX_MINT, "Exceeds number");
-        }
-        require(msg.value >= price(_count), "Value below price");
-
-        for (uint256 i = 0; i < _count; i++) {
+		require(_count <= MAX_MINT, "Exceeds number");
+		require(msg.value >= price(_count), "Value below price");
+		for (uint256 i = 0; i < _count; i++) {
             _mintAnElement(_to);
         }
     }
@@ -3261,10 +3236,7 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
     }
 
     function price(uint256 _count) public view returns (uint256) {
-        if (sale_state == 1) {
-            return PRESALE_PRICE.mul(_count);
-        }
-        return PRICE.mul(_count);
+		return PRICE.mul(_count);
     }
 
     function _baseURI() internal view virtual override returns (string memory) {
@@ -3275,23 +3247,17 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
         baseTokenURI = baseURI;
     }
 
-    function setPresaleMintPrice(uint256 _price) external onlyOwner {
-        PRESALE_PRICE = _price;
-    }
-
-    function setMintPrice(uint256 _price) external onlyOwner {
+	function setMintPrice(uint256 _price) external onlyOwner {
         PRICE = _price;
     }
 
     function walletOfOwner(address _owner) external view returns (uint256[] memory) {
         uint256 tokenCount = balanceOf(_owner);
-
-        uint256[] memory tokenIds = new uint256[](tokenCount);
+		uint256[] memory tokenIds = new uint256[](tokenCount);
         for (uint256 i = 0; i < tokenCount; i++) {
             tokenIds[i] = tokenOfOwnerByIndex(_owner, i);
         }
-
-        return tokenIds;
+		return tokenIds;
     }
 
     function pause(bool val) public onlyOwner {
@@ -3305,17 +3271,7 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
     function startState(uint _state) public onlyOwner {
         sale_state = _state;
     }
-
-    function withdrawAll() public payable onlyOwner {
-        uint256 balance = address(this).balance;
-        require(balance > 0);
-        _widthdraw(creatorAddress1, balance.mul(225).div(1000));
-        _widthdraw(creatorAddress2, balance.mul(5).div(100));
-        _widthdraw(devAddress, balance.mul(4).div(100));
-        _widthdraw(creatorAddress3, address(this).balance);
-    }
-
-    function _widthdraw(address _address, uint256 _amount) private {
+	function _widthdraw(address _address, uint256 _amount) private {
         (bool success,) = _address.call{value : _amount}("");
         require(success, "Transfer failed.");
     }

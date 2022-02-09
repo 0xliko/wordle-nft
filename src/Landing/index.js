@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Twiter from "../assets/img/twiter.svg";
 import Instagram from "../assets/img/instagram.svg";
 import Discord from "../assets/img/discord.svg";
-import React, {useRef} from 'react';
+import React from 'react';
 import GreenOne from "../assets/img/greenNo1.svg";
 import Vector from "../assets/img/vector.svg"
 import YellowTwo from "../assets/img/yellowNo2.svg";
@@ -23,7 +23,10 @@ import BlackSix from "../assets/img/blackNo6.svg";
 import YellowFour from "../assets/img/yellowNo4.svg";
 import * as Scroll from 'react-scroll';
 import MintModal from "../Component/MintModal";
-
+import {
+    useBalanceOf,
+    useMint,
+} from '../hooks';
 
 const roadMaps = [
     {
@@ -77,11 +80,7 @@ function Landing(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const home = useRef();
-    const about = useRef();
-    const roadmap = useRef();
-    const team = useRef();
-    const faq = useRef();
+
     const mintNow = () => {
         handleOpen();
     }
@@ -93,7 +92,7 @@ function Landing(props) {
                     <HeaderBar/>
                 </Box>
                 <Element name="home">
-                    <Box sx={{mt: 5}} ref={home}>
+                    <Box sx={{mt: 5}}>
                         <Grid container sx={{position: 'relative'}}>
                             <Grid item xs={12} md={6}
                                   sx={{
@@ -239,7 +238,7 @@ function Landing(props) {
                 </Element>
                 {/* Second Section */}
                 <Element name="about">
-                    <Box sx={{display: "flex", backgroundColor: '#1B1B1B', mt: 5}} ref={about}>
+                    <Box sx={{display: "flex", backgroundColor: '#1B1B1B', mt: 5}}>
                         <Grid container>
                             <Grid item xs={12} md={6}
                                   sx={{justifyContent: 'center', display: 'inline-grid', flexDirection: 'column',}}>
@@ -289,7 +288,7 @@ function Landing(props) {
                 </Element>
                 {/* Third Section */}
                 <Element name="roadmap">
-                    <Box ref={roadmap}>
+                    <Box>
                         <Grid container>
 
                             <Grid item xs={12} sx={{
@@ -349,7 +348,7 @@ function Landing(props) {
 
                 {/* Fouth Section */}
                 <Element name="team">
-                    <Box ref={team}>
+                    <Box>
                         <Grid container>
                             <Grid item xs={12} sx={{
                                 textAlign: 'center',
@@ -389,7 +388,7 @@ function Landing(props) {
                 </Element>
                 {/* fifth Section */}
                 <Element name="faq">
-                    <Box ref={faq}>
+                    <Box>
                         <Grid container>
                             <Grid item xs={12} sx={{
                                 textAlign: 'center',
