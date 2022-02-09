@@ -23,10 +23,7 @@ import BlackSix from "../assets/img/blackNo6.svg";
 import YellowFour from "../assets/img/yellowNo4.svg";
 import * as Scroll from 'react-scroll';
 import MintModal from "../Component/MintModal";
-import {
-    useBalanceOf,
-    useMint,
-} from '../hooks';
+import {useTotalSupply} from '../hooks';
 
 const roadMaps = [
     {
@@ -80,7 +77,7 @@ function Landing(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    const totalSupply = useTotalSupply();
     const mintNow = () => {
         handleOpen();
     }
@@ -230,7 +227,7 @@ function Landing(props) {
                                 top: {xs: 'calc(50% + 75px)', md: 'calc(50% - 60px)'},
                                 boxShadow: '5px 5px 5px 2px rgb(231 226 226 / 19%) inset'
                             }}>
-                                <h1 style={{fontFamily: 'Neue Machina', fontSize: '28px', margin: 0}}>0.00</h1>
+                                <h1 style={{fontFamily: 'Neue Machina', fontSize: '28px', margin: 0}}>{1012+1*totalSupply}</h1>
                                 TOTAL MINTED
                             </Box>
                         </Grid>

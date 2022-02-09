@@ -189,7 +189,7 @@ function MintModal(props) {
                     </Grid>
                     <Grid sx={{flex: 1}}></Grid>
                     <Typography sx={{maxWidth: 360, mb: 2, textAlign: 'center', fontSize: 20}}>Wordles are a collection
-                        of 6,999 unique and generative nfts based on the viral video game that took the world by storm,
+                        of 6,999 unique and generative nfts based on the viral  video game that took the world by storm,
                         Wordle.
                     </Typography>
                     <Typography sx={{mb: 2, color: '#ECB000', fontSize: 30}}>0.04 ETH/NFT</Typography>
