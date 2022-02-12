@@ -467,14 +467,14 @@ function Landing(props) {
                 {/* Section  End */}
                 <Box sx={{marginBottom: 10}}>
                     <Grid container sx={{justifyContent: 'center', mt: 10}} spacing={5}>
-                        <Grid item sx={{
+                        {/*<Grid item sx={{
                             textAlign: 'center',
                             justifyContent: 'center',
                             display: 'inline-flex',
                             flexDirection: 'column',
                         }}>
                             <img src={Twiter}></img>
-                        </Grid>
+                        </Grid>*/}
                         <Grid item sx={{
                             textAlign: 'center',
                             justifyContent: 'center',
