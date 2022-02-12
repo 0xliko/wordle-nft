@@ -239,7 +239,7 @@ function Landing(props) {
                                 top: {xs: 'calc(50% + 75px)', md: 'calc(50% - 60px)'},
                                 boxShadow: '5px 5px 5px 2px rgb(231 226 226 / 19%) inset'
                             }}>
-                                <h1 style={{fontFamily: 'Neue Machina', fontSize: '28px', margin: 0}}>{1012+1*totalSupply?totalSupply:0}</h1>
+                                <h1 style={{fontFamily: 'Neue Machina', fontSize: '28px', margin: 0}}>{totalSupply?1012+1*totalSupply:''}</h1>
                                 TOTAL MINTED
                             </Box>
                         </Grid>
