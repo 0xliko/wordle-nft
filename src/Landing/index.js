@@ -12,7 +12,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Twiter from "../assets/img/twiter.svg";
 import Instagram from "../assets/img/instagram.svg";
 import Discord from "../assets/img/discord.svg";
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import GreenOne from "../assets/img/greenNo1.svg";
 import Vector from "../assets/img/vector.svg"
 import YellowTwo from "../assets/img/yellowNo2.svg";
@@ -24,6 +24,9 @@ import YellowFour from "../assets/img/yellowNo4.svg";
 import * as Scroll from 'react-scroll';
 import MintModal from "../Component/MintModal";
 import {useTotalSupply} from '../hooks';
+import Web3 from 'web3';
+import abi from '../abi/WordleABI.json';
+import { WordleContractAddress as  contractAddress} from '../contracts';
 
 const roadMaps = [
     {
@@ -77,10 +80,19 @@ function Landing(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const totalSupply = useTotalSupply();
+    const [totalSupply,setTotalSupply] = useState(0);
     const mintNow = () => {
         handleOpen();
     }
+    useEffect(async ()=>{
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            // window.ethereum.enable();
+        }
+        let contract = await new window.web3.eth.Contract(abi, contractAddress);
+        let total = await contract.methods.totalSupply().call();
+        setTotalSupply(total);
+    })
     return (
         <>
             <Box sx={{overflow: 'auto', pt: '70px'}}>
@@ -227,7 +239,7 @@ function Landing(props) {
                                 top: {xs: 'calc(50% + 75px)', md: 'calc(50% - 60px)'},
                                 boxShadow: '5px 5px 5px 2px rgb(231 226 226 / 19%) inset'
                             }}>
-                                <h1 style={{fontFamily: 'Neue Machina', fontSize: '28px', margin: 0}}>{1012+1*totalSupply}</h1>
+                                <h1 style={{fontFamily: 'Neue Machina', fontSize: '28px', margin: 0}}>{1012+1*totalSupply?totalSupply:0}</h1>
                                 TOTAL MINTED
                             </Box>
                         </Grid>

@@ -9,7 +9,6 @@ const wordleContract = new Contract(
   WordleContractAddress,
   WordleContractInterface
 );
-
 export const usePrice = () => {
   const [price] =
     useContractCall({
@@ -22,17 +21,18 @@ export const usePrice = () => {
   return price;
 };
 export const useTotalSupply = () => {
-  const [totalSupply] =
-    useContractCall({
+
+
+  const result = useContractCall({
       abi: WordleContractInterface,
       address: WordleContractAddress,
       method: 'totalSupply',
       args: [],
     }) ?? [];
-
+  console.log(result,"")
+  const [totalSupply] = result;
   return totalSupply;
 };
-
 export const useBalanceOf = (address) => {
   const [balanceOf] =
     useContractCall(
