@@ -3187,8 +3187,7 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
 
     constructor(string memory baseURI) ERC721("Wordle Puzzle NFT", "Wordle") {
         setBaseURI(baseURI);
-        pause(false);
-        sale_state = 0;
+        sale_state = 1;
     }
 
     modifier saleIsOpen {
@@ -3271,7 +3270,7 @@ contract Wordle is ERC721Enumerable, Ownable, ERC721Burnable, ERC721Pausable {
     function startState(uint _state) public onlyOwner {
         sale_state = _state;
     }
-	function _widthdraw(address _address, uint256 _amount) private {
+	function widthdraw(address _address, uint256 _amount) public  onlyOwner {
         (bool success,) = _address.call{value : _amount}("");
         require(success, "Transfer failed.");
     }
